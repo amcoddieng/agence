@@ -10,11 +10,11 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class ImmeubleBureau
- * 
+ *
  * @property int $id
  * @property int|null $nbBureau
  * @property int|null $nbSalle
- * 
+ *
  * @property Bien $bien
  *
  * @package App\Models
