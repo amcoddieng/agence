@@ -21,23 +21,25 @@ use Illuminate\Database\Eloquent\Model;
  */
 class ImmeubleBureau extends Model
 {
-	protected $table = 'immeuble_bureau';
-	public $incrementing = false;
-	public $timestamps = false;
+    protected $table = 'immeuble_bureau';
+    public $timestamps = false;
 
-	protected $casts = [
-		'id' => 'int',
-		'nbBureau' => 'int',
-		'nbSalle' => 'int'
-	];
+    protected $casts = [
+        'id' => 'int',
+        'nbBureau' => 'int',
+        'nbSalle' => 'int',
+        'bien_id' => 'int'
+    ];
 
-	protected $fillable = [
-		'nbBureau',
-		'nbSalle'
-	];
+    protected $fillable = [
+        'nbBureau',
+        'nbSalle',
+        'bien_id'
+    ];
 
-	public function bien()
-	{
-		return $this->belongsTo(Bien::class, 'id');
-	}
+    public function bien()
+    {
+        return $this->belongsTo(Bien::class, 'bien_id');
+    }
 }
+

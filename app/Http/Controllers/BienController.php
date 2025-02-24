@@ -2,44 +2,57 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Bien;
+use Illuminate\Http\Request;
 
 class BienController extends Controller
 {
-    public function index() {
-        $biens = Bien::paginate(10);
-        return view('admin.bien.index', compact('biens'));
+    public function index()
+    {
+        $biens = Bien::all();
+        return response()->json($biens);
     }
 
-    public function create() {
-        return view('biens.create');
-    }
-
-    public function store(Request $request) {
-        $bien = Bien::create($request->all());
-        return redirect()->route('biens.index');
-    }
-
-    public function show($id) {
+    public function show($id)
+    {
         $bien = Bien::findOrFail($id);
-        return view('biens.show', compact('bien'));
+        return response()->json($bien);
     }
 
-    public function edit($id) {
+    public function store(Request $request)
+    {
+        $validatedData = $request->validate([
+            'nom' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'adresse' => 'required|string|max:255',
+            'prix' => 'required|numeric|min:0',
+            'type' => 'required|string|in:villa,terrain,appartement,magasin,bureau'
+        ]);
+
+        $bien = Bien::create($validatedData);
+        return response()->json($bien, 201);
+    }
+
+    public function update(Request $request, $id)
+    {
         $bien = Bien::findOrFail($id);
-        return view('biens.edit', compact('bien'));
+
+        $validatedData = $request->validate([
+            'nom' => 'required|string|max:255',
+            'description' => 'nullable|string',
+            'adresse' => 'required|string|max:255',
+            'prix' => 'required|numeric|min:0',
+            'type' => 'required|string|in:villa,terrain,appartement,magasin,bureau'
+        ]);
+
+        $bien->update($validatedData);
+        return response()->json($bien);
     }
 
-    public function update(Request $request, $id) {
-        $bien = Bien::findOrFail($id);
-        $bien->update($request->all());
-        return redirect()->route('biens.index');
-    }
-
-    public function destroy($id) {
+    public function destroy($id)
+    {
         $bien = Bien::findOrFail($id);
         $bien->delete();
-        return redirect()->route('biens.index');
+        return response()->json(['message' => 'Bien supprimé avec succès']);
     }
 }

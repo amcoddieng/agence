@@ -1,55 +1,44 @@
-@extends('admin.nav.nav')
-@section('title', 'Liste des Appartements')
+@extends('layouts.app')
 
 @section('content')
-<div class="container mx-auto p-1">
-    <h1 class="text-2xl font-bold mb-6">Liste des Appartements</h1>
+<div class="container">
+    <h2 class="mb-4">Liste des appartements</h2>
 
-    <table class="table-auto border-collapse w-full bg-white shadow-lg rounded-lg overflow-hidden">
-        <thead>
-            <tr class="bg-gray-100">
-                <th class="px-4 py-2 border">ID</th>
-                <th class="px-4 py-2 border">Titre</th>
-                <th class="px-4 py-2 border">Prix (FCFA)</th>
-                <th class="px-4 py-2 border">Localisation</th>
-                <th class="px-4 py-2 border">Surface</th>
-                <th class="px-4 py-2 border">Nb Chambres</th>
-                <th class="px-4 py-2 border">Nb Salons</th>
-                <th class="px-4 py-2 border">Nb Salles de Bain</th>
-                <th class="px-4 py-2 border">Disponibilité</th>
-                <th class="px-4 py-2 border">Actions</th>
+    @if(session('success'))
+        <div class="alert alert-success">{{ session('success') }}</div>
+    @endif
+
+    <table class="table table-bordered">
+        <thead class="table-light">
+            <tr>
+                <th>ID</th>
+                <th>Titre</th>
+                <th>Ville</th>
+                <th>Prix</th>
+                <th>Surface</th>
+                <th>Actions</th>
             </tr>
         </thead>
         <tbody>
             @foreach($appartements as $appartement)
-            <tr>
-                <td class="px-4 py-2 border">{{ $appartement->id }}</td>
-                <td class="px-4 py-2 border">{{ $appartement->bien->titre ?? 'N/A' }}</td>
-                <td class="px-4 py-2 border">{{ number_format($appartement->bien->prix ?? 0, 0, ',', ' ') }}</td>
-                <td class="px-4 py-2 border">{{ $appartement->bien->region ?? 'N/A' }}, {{ $appartement->bien->ville ?? 'N/A' }}</td>
-                <td class="px-4 py-2 border">{{ $appartement->bien->surface ?? 0 }} m²</td>
-                <td class="px-4 py-2 border">{{ $appartement->nbChambre ?? 0 }}</td>
-                <td class="px-4 py-2 border">{{ $appartement->nbSalon ?? 0 }}</td>
-                <td class="px-4 py-2 border">{{ $appartement->nbSalleBain ?? 0 }}</td>
-                <td class="px-4 py-2 border">{{ $appartement->bien->disponibilite ? 'Disponible' : 'Indisponible' }}</td>
-
-                <td class="px-4 py-2 border">
-                    <a href="{{ route('biens.show', $appartement->id) }}" class="text-blue-500 hover:underline">Voir</a>
-                    <a href="{{ route('appartements.edit', $appartement->id) }}" class="text-green-500 hover:underline ml-2">Modifier</a>
-                    <form action="{{ route('appartements.destroy', $appartement->id) }}" method="POST" class="inline-block">
-                        @csrf
-                        @method('DELETE')
-                        <button type="submit" class="text-red-500 hover:underline ml-2" onclick="return confirm('Voulez-vous supprimer cet appartement ?')">Supprimer</button>
-                    </form>
-                </td>
-            </tr>
+                <tr>
+                    <td>{{ $appartement->id }}</td>
+                    <td>{{ $appartement->bien->titre }}</td>
+                    <td>{{ $appartement->bien->ville }}</td>
+                    <td>{{ number_format($appartement->bien->prix, 0, ',', ' ') }} FCFA</td>
+                    <td>{{ $appartement->bien->surface }} m²</td>
+                    <td>
+                        <a href="{{ route('appartements.show', $appartement->id) }}" class="btn btn-sm btn-info">Voir</a>
+                        <a href="{{ route('appartements.edit', $appartement->id) }}" class="btn btn-sm btn-warning">Modifier</a>
+                        <form action="{{ route('appartements.destroy', $appartement->id) }}" method="POST" class="d-inline">
+                            @csrf
+                            @method('DELETE')
+                            <button type="submit" class="btn btn-sm btn-danger" onclick="return confirm('Voulez-vous vraiment supprimer cet appartement ?')">Supprimer</button>
+                        </form>
+                    </td>
+                </tr>
             @endforeach
         </tbody>
     </table>
-
-    <!-- Pagination -->
-    <div class="mt-6">
-        {{ $appartements->links('pagination::tailwind') }}
-    </div>
 </div>
 @endsection

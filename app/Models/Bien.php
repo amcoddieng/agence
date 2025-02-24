@@ -11,7 +11,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * Class Bien
- * 
+ *
  * @property int $id
  * @property string|null $titre
  * @property string|null $description
@@ -25,7 +25,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property int|null $disponibilite
  * @property int|null $surface
  * @property int|null $proprietaire_id
- * 
+ *
  * @property Proprietaire|null $proprietaire
  * @property Appartement $appartement
  * @property Collection|Contrat[] $contrats
@@ -69,26 +69,26 @@ class Bien extends Model
 
 	public function appartement()
 	{
-		return $this->hasOne(Appartement::class, 'id');
-	}
+        return $this->hasOne(Appartement::class, 'bien_id');	}
 
 	public function contrats()
 	{
 		return $this->hasMany(Contrat::class);
 	}
 
-	public function immeuble_bureau()
-	{
-		return $this->hasOne(ImmeubleBureau::class, 'id');
-	}
+    public function immeuble_bureau()
+    {
+        return $this->hasOne(ImmeubleBureau::class, 'bien_id');
+    }
 
-	public function terrain()
-	{
-		return $this->hasOne(Terrain::class, 'id');
-	}
+    public function terrain()
+    {
+        return $this->hasOne(Terrain::class, 'bien_id');
+    }
 
-	public function villa()
-	{
-		return $this->hasOne(Villa::class, 'id');
-	}
+    public function villa()
+    {
+        return $this->hasOne(Villa::class, 'bien_id');
+    }
+
 }
