@@ -4,17 +4,19 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up() {
+    public function up()
+    {
         Schema::create('agents', function (Blueprint $table) {
             $table->id();
-            $table->string('login');
+            $table->foreignId('personnes_id')->constrained('personnes')->onDelete('cascade');
+            $table->string('login')->unique();
             $table->string('password');
-            $table->foreignId('personne_id')->constrained('personnes');
             $table->timestamps();
         });
     }
 
-    public function down() {
+    public function down()
+    {
         Schema::dropIfExists('agents');
     }
 };

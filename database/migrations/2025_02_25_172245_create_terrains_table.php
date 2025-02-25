@@ -4,17 +4,17 @@ use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration {
-    public function up() {
-        Schema::create('proprietaires', function (Blueprint $table) {
+    public function up()
+    {
+        Schema::create('terrains', function (Blueprint $table) {
             $table->id();
-
-            $table->foreignId('personne_id')->constrained('personnes');
-
+            $table->foreignId('bien_id')->constrained('biens')->onDelete('cascade');
             $table->timestamps();
         });
     }
 
-    public function down() {
-        Schema::dropIfExists('proprietaires');
+    public function down()
+    {
+        Schema::dropIfExists('terrains');
     }
 };

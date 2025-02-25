@@ -6,7 +6,7 @@ use App\Models\Appartement;
 use App\Models\Bien;
 use Illuminate\Http\Request;
 
-class AppartementController extends Controller
+class app extends Controller
 {
     /**
      * Afficher la liste des appartements.

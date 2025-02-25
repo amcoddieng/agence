@@ -20,6 +20,7 @@
             </tr>
         </thead>
         <tbody>
+@dd($appartements)
             @foreach($appartements as $appartement)
                 <tr>
                     <td>{{ $appartement->id }}</td>

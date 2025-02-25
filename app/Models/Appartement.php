@@ -1,44 +1,14 @@
 <?php
-
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Appartement
- *
- * @property int $id
- * @property int|null $nbChambre
- * @property int|null $nbSalon
- * @property int|null $nbSalleBain
- *
- * @property Bien $bien
- *
- * @package App\Models
- */
 class Appartement extends Model
 {
-    protected $table = 'appartement';
-    public $timestamps = false;
+    use HasFactory;
 
-    protected $casts = [
-        'id' => 'int',
-        'nbChambre' => 'int',
-        'nbSalon' => 'int',
-        'nbSalleBain' => 'int',
-        'bien_id' => 'int'
-    ];
-
-    protected $fillable = [
-        'nbChambre',
-        'nbSalon',
-        'nbSalleBain',
-        'bien_id'
-    ];
+    protected $fillable = ['bien_id'];
 
     public function bien()
     {

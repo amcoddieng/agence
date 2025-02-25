@@ -1,40 +1,22 @@
 <?php
-
-/**
- * Created by Reliese Model.
- */
-
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-/**
- * Class Message
- * 
- * @property int $id
- * @property string|null $contenu
- * @property int|null $client_id
- * 
- * @property Client|null $client
- *
- * @package App\Models
- */
 class Message extends Model
 {
-	protected $table = 'message';
-	public $timestamps = false;
+    use HasFactory;
 
-	protected $casts = [
-		'client_id' => 'int'
-	];
+    protected $fillable = ['contenu','vu', 'expediteur_id', 'destinataire_id'];
 
-	protected $fillable = [
-		'contenu',
-		'client_id'
-	];
+    public function expediteur()
+    {
+        return $this->belongsTo(Personne::class, 'expediteur_id');
+    }
 
-	public function client()
-	{
-		return $this->belongsTo(Client::class);
-	}
+    public function destinataire()
+    {
+        return $this->belongsTo(Personne::class, 'destinataire_id');
+    }
 }
